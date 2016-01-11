@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netease.yuandao.biz.mapper.PersonMapper">
+<cache eviction="LRU" type="com.netease.yuandao.biz.cache.MybatisRedisCache">
+ </cache>
+<!--  <cache eviction="LRU" type="com.netease.yuandao.biz.cache.TestCache" />
+ -->
+<!--  <cache eviction="LRU" type="org.mybatis.caches.redis.RedisCache"></cache>
+  -->
+ <sql id="allColumn">
+		id as id,
+		create_time as createTime,
+		modify_time as
+		modifyTime,
+		gender as gender,
+		name as name,
+		tel as tel
+	</sql>
+
+	<insert id="create" parameterType="Person" useGeneratedKeys="true"
+		keyProperty="id" >
+		insert into person
+		(
+		id,create_time,modify_time,gender,name,tel
+		)
+		values(
+		#{id},#{createTime},#{modifyTime},#{gender},#{name},#{tel});
+	</insert>
+	<select id="retrieve" parameterType="java.lang.Integer"
+		resultType="Person">
+		select
+		<include refid="allColumn" />
+		from person
+		where id = #{id}
+	</select>
+
+	<update id="update" parameterType="Person">
+		update person
+		<set>
+			<if test="id != null">id=#{id},</if>
+			<if test="createTime != null">create_time=#{createTime},</if>
+			<if test="modifyTime != null">modify_time=#{modifyTime},</if>
+			<if test="gender != null">gender=#{gender},</if>
+			<if test="name != null">name=#{name},</if>
+			<if test="tel != null">tel=#{tel},</if>
+			modify_time=now()
+		</set>
+		where id=#{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from person
+		where
+		id=#{id}
+	</delete>
+
+</mapper>

@@ -1,0 +1,27 @@
+下述是一个简单的搭建redis的详细步骤。
+
+1.下载redis最新windows下安装版
+2.解压，命名为RedisMaster.
+修改redis.windows.conf的配置为
+bind 127.0.0.1
+requirepass test123
+3.拷贝一份RedisMaster，重命名为RedisSlave,
+修改redis.windows.conf的配置为
+bind 127.0.0.1
+port 6380
+4.cd 到RedisMaster，启动:
+redis-server.exe redis.windows.conf &
+5.cd 到RedisSlave，启动
+redis-server.exe redis.windows.conf &
+6.创建sentinel.conf，配置如下
+port 26329
+sentinel monitor mymaster 127.0.0.1 6379 2
+sentinel down-after-milliseconds mymaster 60000
+sentinel config-epoch mymaster 0
+sentinel leader-epoch mymaster 0
+sentinel known-slave mymaster 127.0.0.1 6380
+sentinel current-epoch 0
+7.切换到RedisMaster,启动sentinel
+redis-server.exe sentinel.conf --sentinel &
+
+8.redis-cli.exe -p 26329

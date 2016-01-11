@@ -1,0 +1,15 @@
+/target
+/.settings
+.classpath
+.project
+/logs
+/bin
+.metadata
+.Servers
+.tomcatplugin
+.#webclasspath
+/sentry-web/.DS_Store
+mvninstall.bat
+/sentry-web/mvntomcat.bat
+.idea
+*.iml

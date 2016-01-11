@@ -1,0 +1,7 @@
+The cache system has both local cache and central cache like redis or memcached.
+
+First, query central cache, if not hit, query  database.
+
+If central cache is down, use  database.
+
+use no local cache as local cache is easy to result inconsistency in distributed environment.
